@@ -16,27 +16,44 @@ void TextDisplay::drawParallelogram(int a1, int a2, int b1, int b2) {
         << a1 << "," << a2 << "), (" << b1 << "," << b2 << ")" << std::endl;
 }
 
+//algorytm Bresenhama
 void GraphicalDisplay::drawLine(int x1, int y1, int x2, int y2, std::vector<std::vector<bool>>& canvas)
 {
-    int dx = abs(x2 - x1);
-    int dy = abs(y2 - y1);
-    int sx = (x1 < x2) ? 1 : -1;
-    int sy = (y1 < y2) ? 1 : -1;
-    int err = dx - dy;
+    //na pocz¹tku sprawdzamy ró¿nice miêdzy wartoœciamy x oraz y
+    int delta_x = abs(x2 - x1);
+    int delta_y = abs(y2 - y1);
+
+    //kierunek w jakim bêdziemy siê poruszaæ w osi XY rysuj¹c liniê (krok w górê/dó³ i lewo/prawo)
+    int step_x = (x1 < x2) ? 1 : -1;
+    int step_y = (y1 < y2) ? 1 : -1;
+
+
+    //kiedy error jest wiêkszy od zera, to znaczy ¿e ró¿nica w x jest wiêksza ni¿ ró¿nica w y, wiêc nale¿y raczej poruszaæ siê po x
+    int error = delta_x - delta_y;
 
     while (true) {
-        if (x1 >= 0 && x1 < canvas[0].size() && y1 >= 0 && y1 < canvas.size()) {
+        //je¿eli piksel jest w granicach p³ótna to jest dodany do p³ótna
+        if (x1 >= 0 && x1 < canvas[0].size() && y1 >= 0 && y1 < canvas.size())
             canvas[y1][x1] = true;
-        }
+
+        //uda³o nam siê, linia ukoñczona :DDD
         if (x1 == x2 && y1 == y2) break;
-        int e2 = 2 * err;
-        if (e2 > -dy) {
-            err -= dy;
-            x1 += sx;
+
+
+        int double_error = 2 * error;
+
+        //Jeœli podwojony b³¹d jest wiêkszy ni¿ negatywna delta y, zmniejszamy b³¹d o deltê y i przesuwamy siê o krok w osi x.
+        if (double_error > -delta_y)
+        {
+            error -= delta_y;
+            x1 += step_x;
         }
-        if (e2 < dx) {
-            err += dx;
-            y1 += sy;
+
+        //Jeœli podwojony b³¹d jest mniejszy ni¿ delta x, zwiêkszamy b³¹d o deltê x i przesuwamy siê o krok w osi y.
+        if (double_error < delta_x)
+        {
+            error += delta_x;
+            y1 += step_y;
         }
     }
 }
