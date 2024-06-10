@@ -133,9 +133,12 @@
     <ClCompile Include="Zawiski_Znaniewski_projekt.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Circle.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="MyExceptions.h" />
+    <ClInclude Include="Parallelogram.h" />
     <ClInclude Include="Shapes.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
